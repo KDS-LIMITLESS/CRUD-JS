@@ -1,0 +1,25 @@
+{
+  "name": "crude-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KDS-LIMITLESS/CRUDE-JS.git"
+  },
+  "author": "KAMAH DANIEL SOMTOCHUKWU",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KDS-LIMITLESS/CRUDE-JS/issues"
+  },
+  "homepage": "https://github.com/KDS-LIMITLESS/CRUDE-JS#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20"
+  }
+}
