@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const { response } = require('express');
 
 const router = express.Router();
 
@@ -19,37 +20,39 @@ router.post('/', async (req, res) => {
         email: req.body.email
     });
     user = await newUser.save();
-    res.send(`User ${user['name']} Created`);
+    res.status(200).send({"message": "Succesful", user,  "User Created": "100%"});
 });
 
 router.get('/', async (req, res) => {
-    let user = await User.find().sort('email')
-    res.send(user);
+    User.find(async (err, users) => {
+        if (err) return res.status(500).send({"message": "Server Error", "Error": err})
+        if (users) res.status(200).send({"message": "Succesful", users});
+    }).sort('email')
 });
 
 router.put('/:email',(req, res) => {
-    User.findOne({email: req.params.email}, async function(err, user){
+    User.findOne({email: req.params.email}, async (err, user) => {
         if (err) return res.status(404).send(`${err}`);
         if (user){
             user['name'] = req.body.name,
             user['email'] = req.body.email,
             user['country'] = req.body.country
             await user.save()
-            res.send(`User ${user['email']} Updated`)
+            res.status(200).send({"message": "Succesful", user, "User Updated": "100%"});
         }else{
-            if (!user) res.status(404).send(`Not Found!`);
+            if (!user) res.status(404).send({"message": "Error", "Data": "User Not Found"});
         };
     });
 });
 
-router.delete('/:email', async (req, res) => {
-    User .findOne({email: req.params.email}, async (err, user) => {
+router.delete('/:email', (req, res) => {
+    User .findOne({email: req.params.email}, (err, user) => {
         if (err) return res.status(400).send(`${err}`)
         if (user){
             user.deleteOne({email:user['email']})
-            res.send("User Deleted")
+            res.status(200).send({"message": "Succesful", "User Deleted": "100%"});
         }else{
-            if (!user) res.status(404).send("User Not Found!")
+            if (!user) res.status(400).send({"message": "Error", "Data": "User Not Found"});
         }
         
     })
