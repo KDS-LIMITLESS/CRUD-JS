@@ -4,7 +4,6 @@ const { response } = require('express');
 
 const router = express.Router();
 
-// User Model
 
 const User = mongoose.model('User', new mongoose.Schema({
     name: {type: String, required: true},
@@ -14,13 +13,19 @@ const User = mongoose.model('User', new mongoose.Schema({
 
 
 router.post('/', async (req, res) => { 
-    let newUser = new User({
-        name: req.body.name,
-        country: req.body.country,
-        email: req.body.email
-    });
-    user = await newUser.save();
-    res.status(200).send({"message": "Succesful", user,  "User Created": "100%"});
+    try {
+        let user = new User({
+            name: req.body.name,
+            country: req.body.country,
+            email: req.body.email
+        });
+        user = await user.save();
+        res.status(200).send({"message": "Succesful", user,  "User Created": "100%"});
+    }
+    catch(err){
+        res.status(400).send({"message": "Error", "value": "Email Taken" })
+    }
+    
 });
 
 router.get('/', async (req, res) => {
@@ -33,15 +38,20 @@ router.get('/', async (req, res) => {
 router.put('/:email',(req, res) => {
     User.findOne({email: req.params.email}, async (err, user) => {
         if (err) return res.status(404).send(`${err}`);
-        if (user){
-            user['name'] = req.body.name,
-            user['email'] = req.body.email,
-            user['country'] = req.body.country
-            await user.save()
-            res.status(200).send({"message": "Succesful", user, "User Updated": "100%"});
-        }else{
-            if (!user) res.status(404).send({"message": "Error", "Data": "User Not Found"});
-        };
+        try{
+            if (user){
+                user['name'] = req.body.name,
+                user['email'] = req.body.email,
+                user['country'] = req.body.country
+                await user.save()
+                res.status(200).send({"message": "Succesful", user, "User Updated": "100%"});
+            }else{
+                if (!user) res.status(404).send({"message": "Error", "value": "User Not Found"});
+            };
+        }catch (err){
+            res.status(400).send({"message": "Error", "value": "Email Taken" })
+        }
+        
     });
 });
 
@@ -52,7 +62,7 @@ router.delete('/:email', (req, res) => {
             user.deleteOne({email:user['email']})
             res.status(200).send({"message": "Succesful", "User Deleted": "100%"});
         }else{
-            if (!user) res.status(400).send({"message": "Error", "Data": "User Not Found"});
+            if (!user) res.status(404).send({"message": "Error", "value": "User Not Found"});
         }
         
     })
