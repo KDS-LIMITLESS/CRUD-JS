@@ -4,7 +4,7 @@
 
 ## API Reference
 ```http
-    https://zjs.herokuapp.com/
+    https://zjs.herokuapp.com/api/users
 ```
 - ### Get all users
 
