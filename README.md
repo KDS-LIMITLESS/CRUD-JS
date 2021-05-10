@@ -6,7 +6,7 @@
 ```http
     https://zjs.herokuapp.com/
 ```
-#### Get all users
+- ### Get all users
 
 ```http
   GET /api/users
@@ -21,7 +21,7 @@
 ```http
     curl https://zjs.herokuapp.com/api/users 
 ```
-#### Create users
+- ### Create new users
 
 ```http 
     POST /api/users
@@ -38,7 +38,7 @@
     pe: application/json" -X POST https://zjs.herokuapp.com/api/users
 ```
 
-#### Update Users
+- ### Update existing user
 
 ```http
   PUT /api/users/:email
@@ -56,7 +56,7 @@
       pe: application/json" -X PUT https://zjs.herokuapp.com/api/users/<email> 
 ```
 
-#### Delete users
+- ### Delete user
 
 ```http
   DELETE /api/users/:email
@@ -64,8 +64,8 @@
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| email      | `string` | Deletes a user with given email if found. |
-|  
+| email      | `string` | Deletes a user with given email if found.|
+
 
 #### curl
 
